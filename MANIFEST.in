@@ -1,0 +1,6 @@
+include *.lock
+include *.py
+include CHANGELOG
+include Pipfile
+include tox.ini
+recursive-include staticinline *.js
