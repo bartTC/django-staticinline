@@ -21,4 +21,18 @@ If the file does not exist, and ``DEBUG`` is ``False``, an empty string
 is returned and a error logfile is set. In case ``DEBUG`` is ``True``,
 a ``ValueError`` is raised.
 
-.. note:: Compatible with Django 1.8 → 2.0, Python 2.7, Python 3.x
+Installation
+============
+
+This Django app is compatible with Django 1.8 → 2.0, Python 2.7 all
+versions of Python 3.x.
+
+Install with pip and add ``staticinline`` to your installed apps in your
+settings.py::
+
+    pip install django-staticinline
+
+    INSTALLED_APPS = [
+        # ...
+        'staticinline',
+    ]
