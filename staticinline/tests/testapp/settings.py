@@ -26,7 +26,7 @@ TEMPLATES = [
 ]
 
 INSTALLED_APPS = [
-    'staticinline',
+    'staticinline.apps.StaticInlineAppConfig',
     'staticinline.tests.testapp',
     'django.contrib.staticfiles',
 ]

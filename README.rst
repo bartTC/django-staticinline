@@ -36,12 +36,12 @@ Installation
 This Django app is compatible with Django 1.8 → 2.0, Python 2.7 all
 versions of Python 3.x.
 
-Install with pip and add ``staticinline`` to your installed apps in your
-settings.py::
+Install the app with pip and add ``staticinline.apps.StaticInlineAppConfig``
+to your installed apps in your settings.py::
 
     pip install django-staticinline
 
     INSTALLED_APPS = [
         # ...
-        'staticinline',
+        'staticinline.apps.StaticInlineAppConfig',
     ]

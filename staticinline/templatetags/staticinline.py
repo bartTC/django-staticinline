@@ -1,17 +1,20 @@
 import os
 from logging import getLogger
 
+from django.apps import apps
 from django.conf import settings
 from django.contrib.staticfiles.finders import find
 from django.contrib.staticfiles.storage import staticfiles_storage
+from django.core.exceptions import ImproperlyConfigured
 from django.template.defaulttags import register
 from django.utils.safestring import mark_safe
 
 logger = getLogger(__file__)
+config = apps.get_app_config('staticinline')
 
 
 @register.simple_tag()
-def staticinline(path):
+def staticinline(path, encode=None):
     """
     Similiar to Django's native `static` templatetag, but this includes
     the file directly in the template, rather than a link to it.
@@ -60,4 +63,29 @@ def staticinline(path):
                              'file not found.'.format(filename))
         return ''
 
-    return mark_safe(open(filename).read())
+    # If we don't encode the file further, we can return it right away.
+    if not encode:
+        return open(filename).read()  # FIXME: Use staticfiles.open()
+
+    encoder_registry = config.get_encoder()
+    data = open(filename, 'rb').read()
+
+    if not encode in encoder_registry:
+        raise ImproperlyConfigured(
+            '"{0}" is not a registered encoder. Valid values are: {1}'.format(
+            encode, ', '.join(encoder_registry.keys())
+        ))
+    try:
+        return mark_safe(encoder_registry[encode](data))
+    # Anything could go wrong since we don't control the encoding
+    # list itself. In case of an error raise that exception, unless
+    # DEBUG mode is off. Then, same as above, return an empty string.
+    except Exception as e:
+        logger.error('Unable to include inline static file "%s", '
+                     'file not found.', filename)
+        logger.exception(e)
+        if settings.DEBUG:
+            raise e
+    return ''
+
+

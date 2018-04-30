@@ -2,6 +2,7 @@ import os
 import shutil
 
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 from django.core.management import call_command
 from django.template import Template
 from django.template.context import Context
@@ -106,3 +107,23 @@ class StaticInlineTestCase(TestCase):
         rendered = self.render_template(template)
         self.assertEqual(expected, rendered)
         self.assertFalse(settings.DEBUG)
+
+    # --------------------------------------------------------------------------
+    # Encoder
+    # --------------------------------------------------------------------------
+    def test_invalid_encoder(self):
+        """
+        Passing an invalid encoder will raise ImproperlyConfigured.
+        """
+        template = ' {% load staticinline %}{% staticinline "testapp/mykey.pem" encode="doesnotexist" %}'
+        self.assertRaises(ImproperlyConfigured, self.render_template, template)
+
+    def test_base64_encoder(self):
+        """
+        Files can optionally be base64 encoded.
+        """
+        template = 'My Key: {% load staticinline %}{% staticinline "testapp/mykey.pem" encode="base64" %}'
+        expected = 'My Key: LS0tIFN1cGVyIFByaXZhdGUgS2V5IC0tLQo='
+        rendered = self.render_template(template)
+        self.assertEqual(expected, rendered)
+
