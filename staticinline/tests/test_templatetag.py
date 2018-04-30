@@ -111,9 +111,9 @@ class StaticInlineTestCase(TestCase):
     # --------------------------------------------------------------------------
     # Encoder
     # --------------------------------------------------------------------------
-    def test_invalid_encoder(self):
+    def test_unregistered_encoder(self):
         """
-        Passing an invalid encoder will raise ImproperlyConfigured.
+        Passing an unregistered encoder will raise ImproperlyConfigured.
         """
         template = ' {% load staticinline %}{% staticinline "testapp/mykey.pem" encode="doesnotexist" %}'
         self.assertRaises(ImproperlyConfigured, self.render_template, template)

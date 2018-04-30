@@ -21,12 +21,12 @@ class StaticInlineAppConfig(AppConfig):
             'base64': self.encode_base64,
         }
 
-    def encode_base64(self, input):
+    def encode_base64(self, data):
         """
         Encodes a given string with standard Base64.
-        :param bytes input: Input file to encode.
+        :param bytes data: Input file to encode.
         :return: Base64 encoded input string.
         :rtype: str
         :raises Exception: if the file is not suitable to be Base64 encoded.
         """
-        return b64encode(input).decode(self.encoder_response_format)
+        return b64encode(data).decode(self.encoder_response_format)
