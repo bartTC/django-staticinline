@@ -38,7 +38,7 @@ MIDDLEWARE = MIDDLEWARE_CLASSES
 
 STATIC_ROOT = '/tmp/test-staticinline-static-root/'
 STATIC_URL = '/static/'
-ROOT_URLCONF = 'staticinline.tests.testapp.urls'
+# ROOT_URLCONF = 'staticinline.tests.testapp.urls'
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
