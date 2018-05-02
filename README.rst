@@ -11,17 +11,21 @@
 django-staticinline
 ===================
 
-Similiar to Django's native `static` templatetag, but this includes
+Similiar to Django's native ``static`` templatetag, but this includes
 the file directly in the template, rather than a link to it.
 
-Example::
+Example:
+
+.. code:: jinja
 
     {% load staticinline %}
 
     <style type="text/css">{% staticinline "myfile.css" %}</style>
     <script>{% staticinline "myfile.js" %}</script>
 
-Becomes::
+Becomes:
+
+.. code:: html
 
     <style type="text/css">body{ color: red; }</style>
     <script>alert("Hello World");</script>
@@ -37,9 +41,13 @@ This Django app is compatible with Django 1.8 → 2.0, Python 2.7 all
 versions of Python 3.x.
 
 Install the app with pip and add ``staticinline.apps.StaticInlineAppConfig``
-to your installed apps in your settings.py::
+to your installed apps in your settings.py:
+
+.. code:: text
 
     pip install django-staticinline
+
+.. code:: python
 
     INSTALLED_APPS = [
         # ...
