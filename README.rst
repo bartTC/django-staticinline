@@ -58,7 +58,7 @@ Encoder and Customization
 =========================
 
 You can automatically convert the file with the ``encode`` argument.
-django-staticinline ships with one encoder, *``base64``* that transforms
+django-staticinline ships with one encoder, ``base64`` that transforms
 the file content to a base64 encoded string.
 
 Usage:
@@ -73,7 +73,7 @@ Becomes:
 
 .. code:: text
 
-    LS0tIFN1cGVyIFByaXZhdGUgS2V5IC0tLQo='
+    LS0tIFN1cGVyIFByaXZhdGUgS2V5IC0tLQo=
 
 You can add custom filter by setting them in a custom AppConfig.
 See the default AppConfig in ``staticfiles/apps.py`` for further documentation.
