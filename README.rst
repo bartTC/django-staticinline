@@ -76,6 +76,6 @@ Becomes:
     LS0tIFN1cGVyIFByaXZhdGUgS2V5IC0tLQo=
 
 You can add custom filter by setting them in a custom AppConfig.
-See the default AppConfig in ``staticfiles/apps.py`` for further documentation.
+See the default AppConfig in ``staticinline/apps.py`` for further documentation.
 The testsuite also uses a custom AppConfig, which will help you to understand
-the setup. See ``staticfiles/tests/testapp/apps.py`` for it.
+the setup. See ``staticinline/tests/testapp/apps.py`` for it.
