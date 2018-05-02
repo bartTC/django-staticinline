@@ -131,14 +131,27 @@ class StaticInlineTestCase(TestCase):
         """
         Devs can add custom encoders by overriding the Appconfig.
         """
-        pass
+        template = '{% load staticinline %}<script>{% staticinline "testapp/myfile.js" encode="uppercase" %}</script>'
+        expected = '<script>HELLOWORLD();\n</script>'
+        rendered = self.render_template(template)
+        self.assertEqual(expected, rendered)
 
+    @override_settings(DEBUG=True)
     def test_custom_encoder_fails_debug_on(self):
         """
         If an encoder fails and DEBUG is on, the Exception is raised.
         """
+        template = '{% load staticinline %}<script>{% staticinline "testapp/myfile.js" encode="broken" %}</script>'
+        self.assertRaises(ZeroDivisionError, self.render_template, template)
+        self.assertTrue(settings.DEBUG)
 
+    @override_settings(DEBUG=False)
     def test_custom_encoder_fails_debug_off(self):
         """
         If an encoder fails and DEBUG is off, an empty string is returned.
         """
+        template = '{% load staticinline %}<script>{% staticinline "testapp/myfile.js" encode="broken" %}</script>'
+        expected = '<script></script>'
+        rendered = self.render_template(template)
+        self.assertEqual(expected, rendered)
+        self.assertFalse(settings.DEBUG)
