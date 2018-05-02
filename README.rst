@@ -58,7 +58,7 @@ Encoder and Customization
 =========================
 
 You can automatically convert the file with the ``encode`` argument.
-django-staticinline ships with one encoder, *``base64``* that transforms
+django-staticinline ships with one encoder, ``base64`` that transforms
 the file content to a base64 encoded string.
 
 Usage:
