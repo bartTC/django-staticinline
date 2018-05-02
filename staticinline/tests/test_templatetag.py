@@ -120,10 +120,25 @@ class StaticInlineTestCase(TestCase):
 
     def test_base64_encoder(self):
         """
-        Files can optionally be base64 encoded.
+        The 'base64' encoder is shipped with this application.
         """
         template = 'My Key: {% load staticinline %}{% staticinline "testapp/mykey.pem" encode="base64" %}'
         expected = 'My Key: LS0tIFN1cGVyIFByaXZhdGUgS2V5IC0tLQo='
         rendered = self.render_template(template)
         self.assertEqual(expected, rendered)
 
+    def test_custom_encoder_all_ok(self):
+        """
+        Devs can add custom encoders by overriding the Appconfig.
+        """
+        pass
+
+    def test_custom_encoder_fails_debug_on(self):
+        """
+        If an encoder fails and DEBUG is on, the Exception is raised.
+        """
+
+    def test_custom_encoder_fails_debug_off(self):
+        """
+        If an encoder fails and DEBUG is off, an empty string is returned.
+        """
