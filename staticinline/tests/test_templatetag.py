@@ -1,157 +1,117 @@
-import os
-import shutil
-
-from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from django.core.management import call_command
 from django.template import Template
 from django.template.context import Context
 from django.test import override_settings
 from django.test.testcases import TestCase
 
+from staticinline.templatetags import staticinline
 
-class StaticInlineTestCase(TestCase):
+try:
+    from unittest import mock
+except ImportError:
+    import mock
 
-    def setUp(self):
-        # Django 1.8 won't create the STATIC_ROOT directory itself
-        if not os.path.exists(settings.STATIC_ROOT):
-            os.makedirs(settings.STATIC_ROOT)
 
-    def tearDown(self):
-        # Manually delete the collectstatic directory after every test
-        # so we can be sure, all tests start from scratch.
-        shutil.rmtree(settings.STATIC_ROOT, ignore_errors=True)
+def render(source, **context):
+    return Template(source).render(Context(context))
 
-    def render_template(self, template_string):
-        return Template(template_string).render(Context())
 
-    # --------------------------------------------------------------------------
-    # Static files are in app directory (not collected)
-    # --------------------------------------------------------------------------
+class StaticInlineTests(TestCase):
+    template = (
+        '{% load staticinline %}'
+        '<script>{% staticinline "somefile" %}</script>'
+    )
+
+    def test_found(self):
+        """
+        Static file is are correctly included inline the template.
+        """
+        with mock.patch.object(staticinline, 'read_static_file') as reader:
+            reader.return_value = 'alert("hi")'
+            rendered = render(self.template)
+            self.assertEqual(rendered, '<script>alert("hi")</script>')
+
+    def test_file_missing(self):
+        """
+        An empty string is returned if the inlined file is missing and
+        DEBUG is off.
+        """
+        with mock.patch.object(staticinline, 'read_static_file') as reader:
+            reader.side_effect = ValueError('Not found')
+            rendered = render(self.template)
+            self.assertEqual(rendered, '<script></script>')
+
     @override_settings(DEBUG=True)
-    def test_debug_on(self):
+    def test_file_missing_debug(self):
         """
-        Test static files are correctly included inline the template,
-        when DEBUG mode is True.
+        An error raised from read_static_file if the inlined file is
+        missing and DEBUG is on.
         """
-        template = '{% load staticinline %}<script>{% staticinline "testapp/myfile.js" %}</script>'
-        expected = '<script>HelloWorld();\n</script>'
-        rendered = self.render_template(template)
-        self.assertEqual(expected, rendered)
-        self.assertTrue(settings.DEBUG)
+        with mock.patch.object(staticinline, 'read_static_file') as reader:
+            reader.side_effect = ValueError('Not found')
+            self.assertRaises(ValueError, render, self.template)
 
-    @override_settings(DEBUG=False)
-    def test_debug_off(self):
-        """
-        Test static files are correctly included inline the template,
-        when DEBUG mode is False.
-        """
-        template = '{% load staticinline %}<script>{% staticinline "testapp/myfile.js" %}</script>'
-        expected = '<script>HelloWorld();\n</script>'
-        rendered = self.render_template(template)
-        self.assertEqual(expected, rendered)
-        self.assertFalse(settings.DEBUG)
 
-    # --------------------------------------------------------------------------
-    # Static files were collected using 'manage.py collectstatic'
-    # --------------------------------------------------------------------------
+class EncoderTests(TestCase):
+
+    def test_unregistered(self):
+        """
+        Using an unregistered encoder will raise ImproperlyConfigured.
+        """
+        template = (
+            '{% load staticinline %}'
+            '{% staticinline "somefile" encode="doesnotexist" %}'
+        )
+        with mock.patch.object(staticinline, 'read_static_file') as reader:
+            reader.return_value = 'alert("hi")'
+            self.assertRaises(ImproperlyConfigured, render, template)
+
+    def test_error(self):
+        """
+        If the encoder raises any exception, return an empty string when
+        DEBUG is off.
+        """
+        with mock.patch.object(staticinline, 'read_static_file') as reader:
+            reader.return_value = b'it is bytestring data'
+            rendered = render(
+                '{% load staticinline %}'
+                'My Key: {% staticinline "somefile" encode="broken" %}')
+            self.assertEqual(
+                rendered, 'My Key: ')
+
     @override_settings(DEBUG=True)
-    def test_debug_on_with_collectstatic(self):
+    def test_error_debug(self):
         """
-        Test static files are correctly included inline the template,
-        when DEBUG mode is True, and files were collected
+        If the encoder raises any exception, the exception is raised
+        when DEBUG is on.
         """
-        call_command('collectstatic', '-c', interactive=False)
+        with mock.patch.object(staticinline, 'read_static_file') as reader:
+            reader.return_value = b'it is bytestring data'
+            template = (
+                '{% load staticinline %}'
+                'My Key: {% staticinline "somefile" encode="broken" %}')
+            self.assertRaises(ZeroDivisionError, render, template)
 
-        template = '{% load staticinline %}<script>{% staticinline "testapp/myfile.js" %}</script>'
-        expected = '<script>HelloWorld();\n</script>'
-        rendered = self.render_template(template)
-        self.assertEqual(expected, rendered)
-        self.assertTrue(settings.DEBUG)
+    def test_custom(self):
+        """
+        Custom encoders can be used in a separate appconfig.
+        In testapp/apps.py, the 'uppercase' encoder is added.
+        """
+        with mock.patch.object(staticinline, 'read_static_file') as reader:
+            reader.return_value = b'shouting'
+            rendered = render(
+                '{% load staticinline %}'
+                '{% staticinline "somefile" encode="uppercase" %}')
+            self.assertEqual(rendered, 'SHOUTING')
 
-    @override_settings(DEBUG=False)
-    def test_debug_off_with_collectstatic(self):
-        """
-        Test static files are correctly included inline the template,
-        when DEBUG mode is False, and files were collected
-        """
-        call_command('collectstatic', '-c', interactive=False)
-
-        template = '{% load staticinline %}<script>{% staticinline "testapp/myfile.js" %}</script>'
-        expected = '<script>HelloWorld();\n</script>'
-        rendered = self.render_template(template)
-        self.assertEqual(expected, rendered)
-        self.assertFalse(settings.DEBUG)
-
-    # --------------------------------------------------------------------------
-    # File does not exist
-    # --------------------------------------------------------------------------
-    @override_settings(DEBUG=True)
-    def test_debug_on_file_missing(self):
-        """
-        ValueError is raised if DEBUG mode is True
-        and the included file is missing.
-        """
-        template = '{% load staticinline %}<script>{% staticinline "testapp/doesnotexist.js" %}</script>'
-        self.assertRaises(ValueError, self.render_template, template)
-        self.assertTrue(settings.DEBUG)
-
-    @override_settings(DEBUG=False)
-    def test_debug_off_file_missing(self):
-        """
-        Empty string is returned if DEBUG mode is False
-        and the included file is missing.
-        """
-        template = '{% load staticinline %}<script>{% staticinline "testapp/doesnotexist.js" %}</script>'
-        expected = '<script></script>'
-        rendered = self.render_template(template)
-        self.assertEqual(expected, rendered)
-        self.assertFalse(settings.DEBUG)
-
-    # --------------------------------------------------------------------------
-    # Encoder
-    # --------------------------------------------------------------------------
-    def test_unregistered_encoder(self):
-        """
-        Passing an unregistered encoder will raise ImproperlyConfigured.
-        """
-        template = ' {% load staticinline %}{% staticinline "testapp/mykey.pem" encode="doesnotexist" %}'
-        self.assertRaises(ImproperlyConfigured, self.render_template, template)
-
-    def test_base64_encoder(self):
+    def test_base64(self):
         """
         The 'base64' encoder is shipped with this application.
         """
-        template = 'My Key: {% load staticinline %}{% staticinline "testapp/mykey.pem" encode="base64" %}'
-        expected = 'My Key: LS0tIFN1cGVyIFByaXZhdGUgS2V5IC0tLQo='
-        rendered = self.render_template(template)
-        self.assertEqual(expected, rendered)
-
-    def test_custom_encoder_all_ok(self):
-        """
-        Devs can add custom encoders by overriding the Appconfig.
-        """
-        template = '{% load staticinline %}<script>{% staticinline "testapp/myfile.js" encode="uppercase" %}</script>'
-        expected = '<script>HELLOWORLD();\n</script>'
-        rendered = self.render_template(template)
-        self.assertEqual(expected, rendered)
-
-    @override_settings(DEBUG=True)
-    def test_custom_encoder_fails_debug_on(self):
-        """
-        If an encoder fails and DEBUG is on, the Exception is raised.
-        """
-        template = '{% load staticinline %}<script>{% staticinline "testapp/myfile.js" encode="broken" %}</script>'
-        self.assertRaises(ZeroDivisionError, self.render_template, template)
-        self.assertTrue(settings.DEBUG)
-
-    @override_settings(DEBUG=False)
-    def test_custom_encoder_fails_debug_off(self):
-        """
-        If an encoder fails and DEBUG is off, an empty string is returned.
-        """
-        template = '{% load staticinline %}<script>{% staticinline "testapp/myfile.js" encode="broken" %}</script>'
-        expected = '<script></script>'
-        rendered = self.render_template(template)
-        self.assertEqual(expected, rendered)
-        self.assertFalse(settings.DEBUG)
+        with mock.patch.object(staticinline, 'read_static_file') as reader:
+            reader.return_value = b'it is bytestring data'
+            rendered = render(
+                '{% load staticinline %}'
+                'My Key: {% staticinline "somefile" encode="base64" %}')
+            self.assertEqual(
+                rendered, 'My Key: aXQgaXMgYnl0ZXN0cmluZyBkYXRh')

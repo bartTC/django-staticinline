@@ -3,5 +3,4 @@ include *.py
 include CHANGELOG
 include Pipfile
 include tox.ini
-recursive-include staticinline *.js
-recursive-include staticinline *.pem
+graft staticinline/tests/testapp

@@ -20,7 +20,7 @@ class CustomizedStaticInlineAppConfig(StaticInlineAppConfig):
 
     def uppercase(self, data):
         """
-        Sample enocder that turns the incoming text data uppercase.
+        Sample encoder that turns the incoming text data uppercase.
         """
         return data.decode(self.encoder_response_format).upper()
 
