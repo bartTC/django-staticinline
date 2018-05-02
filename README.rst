@@ -53,3 +53,29 @@ to your installed apps in your settings.py:
         # ...
         'staticinline.apps.StaticInlineAppConfig',
     ]
+
+Encoder and Customization
+=========================
+
+You can automatically convert the file with the ``encode`` argument.
+django-staticinline ships with one encoder, *``base64``* that transforms
+the file content to a base64 encoded string.
+
+Usage:
+
+
+.. code:: jinja
+
+    {% load staticinline %}
+    {% staticinline "mykey.pem" encode="base64" %}'
+
+Becomes:
+
+.. code:: text
+
+    LS0tIFN1cGVyIFByaXZhdGUgS2V5IC0tLQo='
+
+You can add custom filter by setting them in a custom AppConfig.
+See the default AppConfig in ``staticfiles/apps.py`` for further documentation.
+The testsuite also uses a custom AppConfig, which will help you to understand
+the setup. See ``staticfiles/tests/testapp/apps.py`` for it.
