@@ -11,11 +11,12 @@ class CustomizedStaticInlineAppConfig(StaticInlineAppConfig):
     Add a custom encoder to the list to test that behavior
     """
     def get_encoder(self):
-        return {
-            'base64': self.encode_base64,
+        default_encoder = super(CustomizedStaticInlineAppConfig, self).get_encoder()
+
+        return default_encoder.update({
             'uppercase': self.uppercase,
             'broken': self.broken,
-        }
+        })
 
     def uppercase(self, data):
         """
