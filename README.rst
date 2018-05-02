@@ -73,7 +73,7 @@ Becomes:
 
 .. code:: text
 
-    LS0tIFN1cGVyIFByaXZhdGUgS2V5IC0tLQo='
+    LS0tIFN1cGVyIFByaXZhdGUgS2V5IC0tLQo=
 
 You can add custom filter by setting them in a custom AppConfig.
 See the default AppConfig in ``staticfiles/apps.py`` for further documentation.
