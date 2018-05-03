@@ -115,3 +115,31 @@ class EncoderTests(TestCase):
                 'My Key: {% staticinline "somefile" encode="base64" %}')
             self.assertEqual(
                 rendered, 'My Key: aXQgaXMgYnl0ZXN0cmluZyBkYXRh')
+
+    @override_settings(DEBUG=True)
+    def test_data(self):
+        """
+        The 'data' URI encoder is shipped with this application.
+        """
+        with mock.patch.object(staticinline, 'read_static_file') as reader:
+            reader.return_value = b'png content'
+            rendered = render(
+                '{% load staticinline %}'
+                '<img src="{% staticinline "a.png" encode="data" %}">')
+            self.assertEqual(
+                rendered,
+                '<img src="data:image/png;base64,cG5nIGNvbnRlbnQ=">')
+
+    @override_settings(DEBUG=True)
+    def test_data_unknown_mimetype(self):
+        """
+        The data URI still works if no mimetype can be guessed.
+        """
+        with mock.patch.object(staticinline, 'read_static_file') as reader:
+            reader.return_value = b'png content'
+            rendered = render(
+                '{% load staticinline %}'
+                '<img src="{% staticinline "somefile" encode="data" %}">')
+            self.assertEqual(
+                rendered,
+                '<img src="data:base64,cG5nIGNvbnRlbnQ=">')

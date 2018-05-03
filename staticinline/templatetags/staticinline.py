@@ -60,7 +60,7 @@ def staticinline(path, encode=None):
             )
         )
     try:
-        return mark_safe(encoder_registry[encode](data))
+        return mark_safe(encoder_registry[encode](data, path))
     # Anything could go wrong since we don't control the encoding
     # list itself. In case of an error raise that exception, unless
     # DEBUG mode is off. Then, same as above, return an empty string.
