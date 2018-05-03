@@ -16,7 +16,7 @@ the file directly in the template, rather than a link to it.
 
 Example:
 
-.. code:: jinja
+.. code:: django
 
     {% load staticinline %}
 
@@ -58,13 +58,15 @@ Encoder and Customization
 =========================
 
 You can automatically convert the file with the ``encode`` argument.
-django-staticinline ships with one encoder, ``base64`` that transforms
-the file content to a base64 encoded string.
+django-staticinline ships with two encoders: ``base64`` that transforms the
+file content to a base64 encoded string, and ``data`` that transforms the
+content into a data URI for use in CSS ``url()`` and HTML ``src=""``
+attributes.
 
-Usage:
+``base64`` encoder
+------------------
 
-
-.. code:: jinja
+.. code:: django
 
     {% load staticinline %}
     {% staticinline "mykey.pem" encode="base64" %}'
@@ -75,7 +77,32 @@ Becomes:
 
     LS0tIFN1cGVyIFByaXZhdGUgS2V5IC0tLQo=
 
-You can add custom filter by setting them in a custom AppConfig.
-See the default AppConfig in ``staticinline/apps.py`` for further documentation.
-The testsuite also uses a custom AppConfig, which will help you to understand
-the setup. See ``staticinline/tests/testapp/apps.py`` for it.
+``data`` encoder
+----------------
+
+.. code:: css+django
+
+    {% load staticinline %}
+    ul.checklist li.complete {
+        background: url('{% icons/check.png %}');
+    }
+
+Becomes:
+
+.. code:: css
+
+    ul.checklist li.complete {
+        background: url('data:image/png;base64,iVBORw0KG\
+    goAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAABlBMVEUAAAD//\
+    /+l2Z/dAAAAM0lEQVR4nGP4/5/h/1+G/58ZDrAz3D/McH8yw83ND\
+    DeNGe4Ug9C9zwz3gVLMDA/A6P9/AFGGFyjOXZtQAAAAAElFTkSuQ\
+    mCC');
+    }
+
+Custom filters
+--------------
+
+You can add custom filters by setting them in a custom AppConfig. See the
+default AppConfig in ``staticinline/apps.py`` for further documentation. The
+test suite also uses a custom AppConfig, which will help you to understand the
+setup. See ``staticinline/tests/testapp/apps.py`` for it.
