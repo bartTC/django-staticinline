@@ -42,7 +42,7 @@ class StaticInlineAppConfig(AppConfig):
         """
         mimetype = mimetypes.guess_type(path)[0]
         if mimetype is None:
-            prefix = 'data:base64,'
+            prefix = 'data:;base64,'
         else:
             prefix = 'data:{0};base64,'.format(mimetype)
         return prefix + self.encode_base64(data, data)

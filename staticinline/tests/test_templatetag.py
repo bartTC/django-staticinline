@@ -142,4 +142,4 @@ class EncoderTests(TestCase):
                 '<img src="{% staticinline "somefile" encode="data" %}">')
             self.assertEqual(
                 rendered,
-                '<img src="data:base64,cG5nIGNvbnRlbnQ=">')
+                '<img src="data:;base64,cG5nIGNvbnRlbnQ=">')
