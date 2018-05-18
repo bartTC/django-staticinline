@@ -18,13 +18,13 @@ class CustomizedStaticInlineAppConfig(StaticInlineAppConfig):
         })
         return encoder
 
-    def uppercase(self, data):
+    def uppercase(self, data, path):
         """
-        Sample enocder that turns the incoming text data uppercase.
+        Sample encoder that turns the incoming text data uppercase.
         """
         return data.decode(self.encoder_response_format).upper()
 
-    def broken(self, data):
+    def broken(self, data, path):
         """
         This intentionally raises an Exception to test error reporting.
         """
