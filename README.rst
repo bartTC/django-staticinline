@@ -84,7 +84,7 @@ Becomes:
 
     {% load staticinline %}
     ul.checklist li.complete {
-        background: url('{% icons/check.png %}');
+        background: url('{% staticinline "icons/check.png" encode="data" %}');
     }
 
 Becomes:
