@@ -58,13 +58,12 @@ Encoder and Customization
 =========================
 
 You can automatically convert the file with the ``encode`` argument.
-django-staticinline ships with two encoders: ``base64`` that transforms the
-file content to a base64 encoded string, and ``data`` that transforms the
-content into a data URI for use in CSS ``url()`` and HTML ``src=""``
-attributes.
+django-staticinline ships with two encoders:
 
 ``base64`` encoder
 ------------------
+
+``base64`` transforms the file content to a base64 encoded string.
 
 .. code:: django
 
@@ -79,6 +78,9 @@ Becomes:
 
 ``data`` encoder
 ----------------
+
+``data`` transforms the content into a data URI for use in
+CSS ``url()`` and HTML ``src=""`` attributes.
 
 .. code:: css+django
 
@@ -99,10 +101,10 @@ Becomes:
     mCC');
     }
 
-Custom filters
+Custom Encoder
 --------------
 
-You can add custom filters by setting them in a custom AppConfig. See the
+You can add custom encoder by setting them in a custom AppConfig. See the
 default AppConfig in ``staticinline/apps.py`` for further documentation. The
 test suite also uses a custom AppConfig, which will help you to understand the
 setup. See ``staticinline/tests/testapp/apps.py`` for it.
