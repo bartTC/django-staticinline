@@ -2,6 +2,12 @@
 Changelog
 =========
 
+
+(master)
+========
+
+- Added support for Django 2.1 and Python 3.7.
+
 v1.1 (2018-08-09)
 =================
 
