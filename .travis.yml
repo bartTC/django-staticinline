@@ -5,6 +5,7 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
+  - "3.7"
 install: pip install tox-travis coverage codacy-coverage
 script: tox
 after_success:
