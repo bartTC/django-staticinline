@@ -6,6 +6,11 @@ Changelog
 (master)
 ========
 
+- ...
+
+v1.3 (2018-08-14)
+=================
+
 - Added support for Django 2.1 and Python 3.7.
 - Added proper documentation.
 - Added ``sri`` (Subresource Integrity) encoder to generate a sha256 for a given file.
