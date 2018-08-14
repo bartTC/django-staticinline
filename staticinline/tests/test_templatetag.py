@@ -18,8 +18,7 @@ def render(source, **context):
 
 class StaticInlineTests(TestCase):
     template = (
-        '{% load staticinline %}'
-        '<script>{% staticinline "somefile" %}</script>'
+        '{% load staticinline %}' '<script>{% staticinline "somefile" %}</script>'
     )
 
     def test_found(self):
@@ -53,7 +52,6 @@ class StaticInlineTests(TestCase):
 
 
 class EncoderTests(TestCase):
-
     def test_unregistered(self):
         """
         Using an unregistered encoder will raise ImproperlyConfigured.
@@ -75,9 +73,9 @@ class EncoderTests(TestCase):
             reader.return_value = b'it is bytestring data'
             rendered = render(
                 '{% load staticinline %}'
-                'My Key: {% staticinline "somefile" encode="broken" %}')
-            self.assertEqual(
-                rendered, 'My Key: ')
+                'My Key: {% staticinline "somefile" encode="broken" %}'
+            )
+            self.assertEqual(rendered, 'My Key: ')
 
     @override_settings(DEBUG=True)
     def test_error_debug(self):
@@ -89,7 +87,8 @@ class EncoderTests(TestCase):
             reader.return_value = b'it is bytestring data'
             template = (
                 '{% load staticinline %}'
-                'My Key: {% staticinline "somefile" encode="broken" %}')
+                'My Key: {% staticinline "somefile" encode="broken" %}'
+            )
             self.assertRaises(ZeroDivisionError, render, template)
 
     def test_custom(self):
@@ -101,7 +100,8 @@ class EncoderTests(TestCase):
             reader.return_value = b'shouting'
             rendered = render(
                 '{% load staticinline %}'
-                '{% staticinline "somefile" encode="uppercase" %}')
+                '{% staticinline "somefile" encode="uppercase" %}'
+            )
             self.assertEqual(rendered, 'SHOUTING')
 
     def test_base64(self):
@@ -112,9 +112,9 @@ class EncoderTests(TestCase):
             reader.return_value = b'it is bytestring data'
             rendered = render(
                 '{% load staticinline %}'
-                'My Key: {% staticinline "somefile" encode="base64" %}')
-            self.assertEqual(
-                rendered, 'My Key: aXQgaXMgYnl0ZXN0cmluZyBkYXRh')
+                'My Key: {% staticinline "somefile" encode="base64" %}'
+            )
+            self.assertEqual(rendered, 'My Key: aXQgaXMgYnl0ZXN0cmluZyBkYXRh')
 
     @override_settings(DEBUG=True)
     def test_data(self):
@@ -125,10 +125,11 @@ class EncoderTests(TestCase):
             reader.return_value = b'png content'
             rendered = render(
                 '{% load staticinline %}'
-                '<img src="{% staticinline "a.png" encode="data" %}">')
+                '<img src="{% staticinline "a.png" encode="data" %}">'
+            )
             self.assertEqual(
-                rendered,
-                '<img src="data:image/png;base64,cG5nIGNvbnRlbnQ=">')
+                rendered, '<img src="data:image/png;base64,cG5nIGNvbnRlbnQ=">'
+            )
 
     @override_settings(DEBUG=True)
     def test_data_unknown_mimetype(self):
@@ -139,7 +140,21 @@ class EncoderTests(TestCase):
             reader.return_value = b'png content'
             rendered = render(
                 '{% load staticinline %}'
-                '<img src="{% staticinline "somefile" encode="data" %}">')
+                '<img src="{% staticinline "somefile" encode="data" %}">'
+            )
+            self.assertEqual(rendered, '<img src="data:;base64,cG5nIGNvbnRlbnQ=">')
+
+    def test_sri(self):
+        """
+        The 'base64' encoder is shipped with this application.
+        """
+        with mock.patch.object(staticinline, 'read_static_file') as reader:
+            reader.return_value = b'alert("hi")'
+            rendered = render(
+                '{% load staticinline %}'
+                'integrity="{% staticinline "somefile" encode="sri" %}"'
+            )
             self.assertEqual(
                 rendered,
-                '<img src="data:;base64,cG5nIGNvbnRlbnQ=">')
+                'integrity="sha256-fdu2bQSeIdU5fvNNkRCjiwUEOOb+NLZDyGNVShZ1vCM="',
+            )

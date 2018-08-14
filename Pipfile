@@ -10,6 +10,9 @@ pytest-cov = "*"
 pytest-django = "*"
 sphinx-autobuild = "*"
 
+[dev-packages]
+ipdb = "*"
+
 [requires]
 python_version = "3.6"
 
