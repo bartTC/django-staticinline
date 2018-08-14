@@ -4,9 +4,16 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-"e1839a8" = {path = ".", extras = ["dev"], editable = true}
-
-[dev-packages]
+sphinx = "*"
+sphinx-rtd-theme = "*"
+pytest-cov = "*"
+pytest-django = "*"
+sphinx-autobuild = "*"
 
 [requires]
 python_version = "3.6"
+
+[scripts]
+test = "django-admin test staticinline"
+docs = "sphinx-build docs docs/_build/html'"
+watch-docs = "sphinx-autobuild docs docs/_build/html"
