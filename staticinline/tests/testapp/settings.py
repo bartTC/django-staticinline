@@ -1,3 +1,7 @@
+import logging.config
+import os
+
+
 DEBUG = True
 
 SECRET_KEY = "super-secret-staticinline-testing-key"
@@ -7,6 +11,13 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': ':memory:',
     },
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
 }
 
 TEMPLATES = [
@@ -45,3 +56,24 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
+logging.config.dictConfig({
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'console': {
+            'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'console',
+        },
+    },
+    'loggers': {
+        '': {
+            'level': os.environ.get('LOG_LEVEL', 'ERROR').upper(),
+            'handlers': ['console'],
+        },
+    },
+})

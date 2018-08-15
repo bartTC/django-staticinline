@@ -3,6 +3,7 @@ from django.template import Template
 from django.template.context import Context
 from django.test import override_settings
 from django.test.testcases import TestCase
+from django.core.cache import cache
 
 from staticinline.templatetags import staticinline
 
@@ -49,6 +50,52 @@ class StaticInlineTests(TestCase):
         with mock.patch.object(staticinline, 'read_static_file') as reader:
             reader.side_effect = ValueError('Not found')
             self.assertRaises(ValueError, render, self.template)
+
+
+class CachedStaticInlineTests(TestCase):
+    template_cached = (
+        '{% load staticinline %}'
+        '<script>{% staticinline "somefile" cache=True cache_timeout=60 %}</script>'
+    )
+    template_cached_encoder = (
+        '{% load staticinline %}'
+        '{% staticinline "some-other-file" encode="base64" cache=True cache_timeout=60 %}'
+    )
+
+    def tearDown(self):
+        cache.clear()
+
+    def test_cache(self):
+        """
+        Static file is are correctly included inline the template.
+        """
+        # Call once to set in cache
+        with mock.patch.object(staticinline, 'read_static_file') as reader:
+            reader.return_value = 'alert("hi")'
+            rendered = render(self.template_cached)
+            self.assertEqual(rendered, '<script>alert("hi")</script>')
+
+        # Call again to test cache retrieval
+        with mock.patch.object(staticinline, 'read_static_file') as reader:
+            reader.return_value = 'alert("hi")'
+            rendered = render(self.template_cached)
+            self.assertEqual(rendered, '<script>alert("hi")</script>')
+
+    def test_cache_encoder(self):
+        """
+        Static file is are correctly included inline the template.
+        """
+        # Call once to set in cache
+        with mock.patch.object(staticinline, 'read_static_file') as reader:
+            reader.return_value = b'it is bytestring data'
+            rendered = render(self.template_cached_encoder)
+            self.assertEqual(rendered, 'aXQgaXMgYnl0ZXN0cmluZyBkYXRh')
+
+        # Call again to test cache retrieval
+        with mock.patch.object(staticinline, 'read_static_file') as reader:
+            reader.return_value = b'it is bytestring data'
+            rendered = render(self.template_cached_encoder)
+            self.assertEqual(rendered, 'aXQgaXMgYnl0ZXN0cmluZyBkYXRh')
 
 
 class EncoderTests(TestCase):

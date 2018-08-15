@@ -3,12 +3,29 @@ import base64
 import hashlib
 
 from django.apps import AppConfig
+from django.utils.safestring import mark_safe
 
 
 class StaticInlineAppConfig(AppConfig):
     name = 'staticinline'
     verbose_name = 'Static Inline Files'
     encoder_response_format = 'utf-8'
+    cache_timeout = 60 * 60
+
+    def build_cache_key(self, path):
+        path = path.encode()
+        return hashlib.sha1(path).hexdigest()
+
+    def data_response(self, data):
+        """
+        This method transforms the data right before its written in the template.
+        This is applied to all files, while 'encoder' are set individually per file.
+
+        :param str data: The [optionally encoded] file content.
+        :return: The [optionally encoded] file content.
+        :rtype: str:
+        """
+        return mark_safe(data)
 
     def get_encoder(self):
         """
