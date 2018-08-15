@@ -49,7 +49,7 @@ def staticinline(path, encode=None, cache=False, cache_timeout=None):
 
     # Retrieve from cache if set
     if cache:
-        cache_key = config.build_cache_key(path)
+        cache_key = config.build_cache_key(path, encode)
         cached_obj = cache_backend.get(cache_key)
         logger.debug('Cache enabled, cache key: %s', cache_key)
 

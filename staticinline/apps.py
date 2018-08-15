@@ -15,9 +15,9 @@ class StaticInlineAppConfig(AppConfig):
     # with the ``cache_timeout`` argument.
     cache_timeout = 60 * 60
 
-    def build_cache_key(self, path):
-        path = path.encode()
-        return 'staticinline-{0}'.format(hashlib.sha1(path).hexdigest())
+    def build_cache_key(self, path, encode=None):
+        s = '{0}{1}'.format(path, encode or '')
+        return 'staticinline-{0}'.format(hashlib.sha1(s.encode()).hexdigest())
 
     def data_response(self, data):
         """
