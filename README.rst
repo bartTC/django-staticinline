@@ -51,4 +51,4 @@ You can additionally post-process the file content using custom 'encoder'.
     <style type="text/css">body{ color: red; }</style>
     My base64 encoded Key: LS0tIFN1cGVyIFByaXZhdGUgS2V5IC0tLQo=
 
-.. _Encoder docs: https://docs.elephant.house/django-staticinline/encoder.html.
+.. _Encoder docs: https://docs.elephant.house/django-staticinline/encoder.html
