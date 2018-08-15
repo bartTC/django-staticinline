@@ -10,16 +10,20 @@ class StaticInlineAppConfig(AppConfig):
     name = 'staticinline'
     verbose_name = 'Static Inline Files'
     encoder_response_format = 'utf-8'
+
+    # Default cache timeout if not specified individually in the template tag
+    # with the ``cache_timeout`` argument.
     cache_timeout = 60 * 60
 
     def build_cache_key(self, path):
         path = path.encode()
-        return hashlib.sha1(path).hexdigest()
+        return 'staticinline-{0}'.format(hashlib.sha1(path).hexdigest())
 
     def data_response(self, data):
         """
-        This method transforms the data right before its written in the template.
-        This is applied to all files, while 'encoder' are set individually per file.
+        This method transforms the data right before its written in the
+        template. This is applied to all files, while 'encoder' are set
+        individually per file.
 
         :param str data: The [optionally encoded] file content.
         :return: The [optionally encoded] file content.

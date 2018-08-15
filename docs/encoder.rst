@@ -18,13 +18,13 @@ Transforms the file content to a base64 encoded string.
 .. code:: django
 
     {% load staticinline %}
-    {% staticinline "mykey.pem" encode="base64" %}'
+    My key: {% staticinline "mykey.pem" encode="base64" %}
 
 Becomes:
 
 .. code:: text
 
-    LS0tIFN1cGVyIFByaXZhdGUgS2V5IC0tLQo=
+    My key: LS0tIFN1cGVyIFByaXZhdGUgS2V5IC0tLQo=
 
 -----
 
@@ -96,8 +96,9 @@ for further information about AppConfig applications.
     # myproject/apps.py
     from staticinline.apps import StaticInlineAppConfig
 
-    # Add the custom 'upper' encoder to the list of build-in encoders.
     class CustomStaticInlineAppConfig(StaticInlineAppConfig):
+
+        # Add the custom 'upper' encoder to the list of build-in encoders.
         def get_encoder(self):
             encoder = super().get_encoder()
             encoder.update({

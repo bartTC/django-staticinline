@@ -1,12 +1,12 @@
 from __future__ import absolute_import
+
 from logging import getLogger
 
 from django.apps import apps
 from django.conf import settings
+from django.core.cache import cache as cache_backend
 from django.core.exceptions import ImproperlyConfigured
 from django.template.defaulttags import register
-from django.utils.safestring import mark_safe
-from django.core.cache import cache as cache_backend
 
 from staticinline.main import read_static_file
 

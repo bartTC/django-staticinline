@@ -46,5 +46,5 @@ Further reading:
    :maxdepth: 3
 
    installation
-   development
    encoder
+   development
