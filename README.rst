@@ -47,7 +47,7 @@ Quickstart
 3. Enjoy the result:
 
    .. code:: html
-   
+
        <style type="text/css">body{ color: red; }</style>
        My base64 encoded Key: LS0tIFN1cGVyIFByaXZhdGUgS2V5IC0tLQo=
 
