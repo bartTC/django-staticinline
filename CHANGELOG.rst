@@ -2,16 +2,15 @@
 Changelog
 =========
 
-
-v1.4 (2018-08-15)
+v1.3 (2018-08-15)
 =================
 
-- Added `cache` and `cache_timeout` templatetag arguments to store rendered
+- Added ``cache`` and ``cache_timeout`` templatetag arguments to store rendered
   values in cache.
-- Added `data_response` AppConfig method to globally override the template
+- Added ``data_response`` AppConfig method to globally override the template
   tag response.
 
-v1.3 (2018-08-14)
+v1.2 (2018-08-14)
 =================
 
 - Added support for Django 2.1 and Python 3.7.
@@ -28,4 +27,4 @@ v1.1 (2018-08-09)
 v1.0 (2018-04-29)
 =================
 
-- Initial release.
+- 🌟 Initial release.
