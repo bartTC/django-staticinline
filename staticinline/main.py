@@ -23,5 +23,5 @@ def read_static_file(path, mode='r'):
         return staticfiles_storage.open(path, mode=mode).read()
 
     message = 'Unable to include inline static file "%s", file not found.'
-    logger.error(message, path)
+    logger.warning(message, path)
     raise ValueError(message % path)
