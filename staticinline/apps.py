@@ -93,6 +93,6 @@ class StaticInlineAppConfig(AppConfig):
         :return: sha256 hash
         :rtype: str
         """
-        hash = hashlib.sha256(data).digest()
-        hash_base64 = base64.b64encode(hash).decode()
-        return 'sha256-{}'.format(hash_base64)
+        h = hashlib.sha256(data).digest()
+        h_base64 = base64.b64encode(h).decode()
+        return 'sha256-{}'.format(h_base64)
