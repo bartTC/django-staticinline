@@ -4,19 +4,24 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+django-staticinline = {editable = true,path = "."}
+
+[dev-packages]
 sphinx = "*"
 sphinx-rtd-theme = "*"
 pytest-cov = "*"
 pytest-django = "*"
 sphinx-autobuild = "*"
-
-[dev-packages]
 ipdb = "*"
-
-[requires]
-python_version = "3.6"
+isort = "*"
+black = "*"
+coverage = "*"
 
 [scripts]
 test = "django-admin test staticinline"
 docs = "sphinx-build docs docs/_build/html"
 watch-docs = "sphinx-autobuild docs docs/_build/html"
+cleanup = "sh -c \"black --skip-string-normalization --line-length=80 --exclude='/(migrations)/' staticinline && isort -rc staticinline\""
+
+[pipenv]
+allow_prereleases = true

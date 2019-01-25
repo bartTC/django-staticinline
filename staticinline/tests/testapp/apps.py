@@ -10,12 +10,10 @@ class CustomizedStaticInlineAppConfig(StaticInlineAppConfig):
     """
     Add a custom encoder to the list to test that behavior
     """
+
     def get_encoder(self):
         encoder = super(CustomizedStaticInlineAppConfig, self).get_encoder()
-        encoder.update({
-            'uppercase': self.uppercase,
-            'broken': self.broken,
-        })
+        encoder.update({'uppercase': self.uppercase, 'broken': self.broken})
         return encoder
 
     def uppercase(self, data, path):
@@ -28,4 +26,4 @@ class CustomizedStaticInlineAppConfig(StaticInlineAppConfig):
         """
         This intentionally raises an Exception to test error reporting.
         """
-        return 1/0
+        return 1 / 0

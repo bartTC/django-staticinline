@@ -1,6 +1,6 @@
-import mimetypes
 import base64
 import hashlib
+import mimetypes
 
 from django.apps import AppConfig
 from django.utils.safestring import mark_safe

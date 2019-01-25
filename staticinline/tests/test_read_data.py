@@ -10,7 +10,6 @@ from staticinline.main import read_static_file
 
 
 class ReadDataTests(TestCase):
-
     def setUp(self):
         # Django 1.8 won't create the STATIC_ROOT directory itself
         if not os.path.exists(settings.STATIC_ROOT):
@@ -34,7 +33,8 @@ class ReadDataTests(TestCase):
         static dirs.
         """
         self.assertRaises(
-            ValueError, read_static_file, 'testapp/doesnotexist.js')
+            ValueError, read_static_file, 'testapp/doesnotexist.js'
+        )
 
     @override_settings(DEBUG=True)
     def test_read_debug(self):

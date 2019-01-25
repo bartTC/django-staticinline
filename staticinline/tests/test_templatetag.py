@@ -1,9 +1,9 @@
+from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
 from django.template import Template
 from django.template.context import Context
 from django.test import override_settings
 from django.test.testcases import TestCase
-from django.core.cache import cache
 
 from staticinline.templatetags import staticinline
 
@@ -19,7 +19,8 @@ def render(source, **context):
 
 class StaticInlineTests(TestCase):
     template = (
-        '{% load staticinline %}' '<script>{% staticinline "somefile" %}</script>'
+        '{% load staticinline %}'
+        '<script>{% staticinline "somefile" %}</script>'
     )
 
     def test_found(self):
@@ -189,7 +190,9 @@ class EncoderTests(TestCase):
                 '{% load staticinline %}'
                 '<img src="{% staticinline "somefile" encode="data" %}">'
             )
-            self.assertEqual(rendered, '<img src="data:;base64,cG5nIGNvbnRlbnQ=">')
+            self.assertEqual(
+                rendered, '<img src="data:;base64,cG5nIGNvbnRlbnQ=">'
+            )
 
     def test_sri(self):
         """

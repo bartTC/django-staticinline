@@ -82,7 +82,9 @@ def staticinline(path, encode=None, cache=False, cache_timeout=None):
     try:
         response = encoder_registry[encode](data, path)
         if cache:
-            logger.debug('Object encoded and set in cache, cache key: %s', cache_key)
+            logger.debug(
+                'Object encoded and set in cache, cache key: %s', cache_key
+            )
             timeout = cache_timeout or config.cache_timeout
             cache_backend.set(cache_key, response, timeout)
         return config.data_response(response)
@@ -93,7 +95,9 @@ def staticinline(path, encode=None, cache=False, cache_timeout=None):
     except Exception as e:
         logger.error(
             'Error encoding to data format %s in static file "%s".',
-            encode, path)
+            encode,
+            path,
+        )
         logger.exception(e)
         if settings.DEBUG:
             raise e

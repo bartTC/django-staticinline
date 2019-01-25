@@ -1,16 +1,12 @@
 import logging.config
 import os
 
-
 DEBUG = True
 
 SECRET_KEY = "super-secret-staticinline-testing-key"
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:',
-    },
+    'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': ':memory:'}
 }
 
 CACHES = {
@@ -31,9 +27,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-            ],
+            ]
         },
-    },
+    }
 ]
 
 INSTALLED_APPS = [
@@ -42,9 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
-)
+MIDDLEWARE_CLASSES = ('django.middleware.common.CommonMiddleware',)
 MIDDLEWARE = MIDDLEWARE_CLASSES
 
 STATIC_ROOT = '/tmp/test-staticinline-static-root/'
@@ -56,24 +50,26 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
-logging.config.dictConfig({
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'console': {
-            'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+logging.config.dictConfig(
+    {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'formatters': {
+            'console': {
+                'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
+            }
         },
-    },
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'console',
+        'handlers': {
+            'console': {
+                'class': 'logging.StreamHandler',
+                'formatter': 'console',
+            }
         },
-    },
-    'loggers': {
-        '': {
-            'level': os.environ.get('LOG_LEVEL', 'ERROR').upper(),
-            'handlers': ['console'],
+        'loggers': {
+            '': {
+                'level': os.environ.get('LOG_LEVEL', 'ERROR').upper(),
+                'handlers': ['console'],
+            }
         },
-    },
-})
+    }
+)
