@@ -52,3 +52,8 @@ Quickstart
        My base64 encoded Key: LS0tIFN1cGVyIFByaXZhdGUgS2V5IC0tLQo=
 
 .. _Encoder docs: https://docs.elephant.house/django-staticinline/encoder.html
+
+
+.. image:: https://api.codacy.com/project/badge/Grade/69e5d48ab5f848ee9101074b59ebdfa8
+   :alt: Codacy Badge
+   :target: https://app.codacy.com/app/bartTC/django-staticinline?utm_source=github.com&utm_medium=referral&utm_content=bartTC/django-staticinline&utm_campaign=Badge_Grade_Dashboard
