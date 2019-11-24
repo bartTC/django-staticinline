@@ -10,7 +10,9 @@
 .. image:: https://api.codacy.com/project/badge/Grade/8e64345e99ea49888dc1bd9303c89a35
     :target: https://www.codacy.com/app/bartTC/django-staticinline
 
-📖 **You find the full documentation on https://docs.elephant.house/django-staticinline/.**
+-----
+
+📖 **Full documentation on https://django-staticinline.readthedocs.io/.**
 
 ===================
 django-staticinline
