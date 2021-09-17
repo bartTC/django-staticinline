@@ -24,7 +24,7 @@ class ReadDataTests(TestCase):
         """
         File is not read from the app's static dir when DEBUG is off.
         """
-        self.assertRaises(ValueError, read_static_file, 'testapp/myfile.js')
+        self.assertRaises(ValueError, read_static_file, "testapp/myfile.js")
 
     @override_settings(DEBUG=True)
     def test_missing_debug(self):
@@ -32,33 +32,31 @@ class ReadDataTests(TestCase):
         An exception is raised if the included file is not found in any
         static dirs.
         """
-        self.assertRaises(
-            ValueError, read_static_file, 'testapp/doesnotexist.js'
-        )
+        self.assertRaises(ValueError, read_static_file, "testapp/doesnotexist.js")
 
     @override_settings(DEBUG=True)
     def test_read_debug(self):
         """
         File is read from the app's static dir when DEBUG is on.
         """
-        data = read_static_file('testapp/myfile.js')
-        self.assertEqual(data, 'HelloWorld();\n')
+        data = read_static_file("testapp/myfile.js")
+        self.assertEqual(data, "HelloWorld();\n")
 
     def test_collectstatic(self):
         """
         Files is read from STATIC_ROOT when DEBUG is off.
         """
-        call_command('collectstatic', '-c', interactive=False)
-        data = read_static_file('testapp/myfile.js')
-        self.assertEqual(data, 'HelloWorld();\n')
+        call_command("collectstatic", "-c", interactive=False)
+        data = read_static_file("testapp/myfile.js")
+        self.assertEqual(data, "HelloWorld();\n")
 
     @override_settings(DEBUG=True)
     def test_collectstatic_extraneous_debug(self):
         """
         Extraneous files in STATIC_ROOT are not read when DEBUG is on.
         """
-        call_command('collectstatic', '-c', interactive=False)
-        path = 'testapp/unexpected.bat'
-        with open(os.path.join(settings.STATIC_ROOT, path), 'w') as f:
-            f.write('@echo off')
+        call_command("collectstatic", "-c", interactive=False)
+        path = "testapp/unexpected.bat"
+        with open(os.path.join(settings.STATIC_ROOT, path), "w") as f:
+            f.write("@echo off")
         self.assertRaises(ValueError, read_static_file, path)

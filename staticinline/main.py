@@ -7,7 +7,7 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 logger = getLogger(__file__)
 
 
-def read_static_file(path, mode='r'):
+def read_static_file(path, mode="r"):
     """
     Return the contents of a static file.
     """

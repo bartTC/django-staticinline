@@ -1,3 +1,5 @@
+from unittest import mock
+
 from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
 from django.template import Template
@@ -6,8 +8,6 @@ from django.test import override_settings
 from django.test.testcases import TestCase
 
 from staticinline.templatetags import staticinline
-
-from unittest import mock
 
 
 def render(source, **context):

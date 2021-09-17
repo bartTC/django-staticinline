@@ -7,17 +7,17 @@ from django.utils.safestring import mark_safe
 
 
 class StaticInlineAppConfig(AppConfig):
-    name = 'staticinline'
-    verbose_name = 'Static Inline Files'
-    encoder_response_format = 'utf-8'
+    name = "staticinline"
+    verbose_name = "Static Inline Files"
+    encoder_response_format = "utf-8"
 
     # Default cache timeout if not specified individually in the template tag
     # with the ``cache_timeout`` argument.
     cache_timeout = 60 * 60
 
     def build_cache_key(self, path, encode=None):
-        s = '{0}{1}'.format(path, encode or '')
-        return 'staticinline-{0}'.format(hashlib.sha1(s.encode()).hexdigest())
+        s = "{0}{1}".format(path, encode or "")
+        return "staticinline-{0}".format(hashlib.sha1(s.encode()).hexdigest())
 
     def data_response(self, data):
         """
@@ -41,9 +41,9 @@ class StaticInlineAppConfig(AppConfig):
         This can be manually extended by providing a custom AppConfig.
         """
         return {
-            'base64': self.encode_base64,
-            'data': self.encode_data_uri,
-            'sri': self.encode_sri,
+            "base64": self.encode_base64,
+            "data": self.encode_data_uri,
+            "sri": self.encode_sri,
         }
 
     def encode_base64(self, data, path):
@@ -67,9 +67,9 @@ class StaticInlineAppConfig(AppConfig):
         """
         mimetype = mimetypes.guess_type(path)[0]
         if mimetype is None:
-            prefix = 'data:;base64,'
+            prefix = "data:;base64,"
         else:
-            prefix = 'data:{0};base64,'.format(mimetype)
+            prefix = "data:{0};base64,".format(mimetype)
         return prefix + self.encode_base64(data, data)
 
     def encode_sri(self, data, path):
@@ -95,4 +95,4 @@ class StaticInlineAppConfig(AppConfig):
         """
         h = hashlib.sha256(data).digest()
         h_base64 = base64.b64encode(h).decode()
-        return 'sha256-{}'.format(h_base64)
+        return "sha256-{}".format(h_base64)

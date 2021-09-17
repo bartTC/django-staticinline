@@ -11,7 +11,7 @@ from django.template.defaulttags import register
 from staticinline.main import read_static_file
 
 logger = getLogger(__file__)
-config = apps.get_app_config('staticinline')
+config = apps.get_app_config("staticinline")
 
 
 @register.simple_tag()
@@ -51,24 +51,24 @@ def staticinline(path, encode=None, cache=False, cache_timeout=None):
     if cache:
         cache_key = config.build_cache_key(path, encode)
         cached_obj = cache_backend.get(cache_key)
-        logger.debug('Cache enabled, cache key: %s', cache_key)
+        logger.debug("Cache enabled, cache key: %s", cache_key)
 
         if cached_obj:
-            logger.debug('Object found in cache')
+            logger.debug("Object found in cache")
             return config.data_response(cached_obj)
 
     try:
-        data = read_static_file(path, mode='rb' if encode else 'r')
+        data = read_static_file(path, mode="rb" if encode else "r")
     except ValueError:
         if settings.DEBUG:
             raise
-        return ''
+        return ""
 
     # If we don't encode the file further, we can return it right away.
     if not encode:
         if cache:
             cache_backend.set(cache_key, data, cache_timeout)
-            logger.debug('Object set in cache, cache key: %s', cache_key)
+            logger.debug("Object set in cache, cache key: %s", cache_key)
         return config.data_response(data)
 
     encoder_registry = config.get_encoder()
@@ -76,15 +76,13 @@ def staticinline(path, encode=None, cache=False, cache_timeout=None):
     if encode not in encoder_registry:
         raise ImproperlyConfigured(
             '"{0}" is not a registered encoder. Valid values are: {1}'.format(
-                encode, ', '.join(encoder_registry.keys())
+                encode, ", ".join(encoder_registry.keys())
             )
         )
     try:
         response = encoder_registry[encode](data, path)
         if cache:
-            logger.debug(
-                'Object encoded and set in cache, cache key: %s', cache_key
-            )
+            logger.debug("Object encoded and set in cache, cache key: %s", cache_key)
             timeout = cache_timeout or config.cache_timeout
             cache_backend.set(cache_key, response, timeout)
         return config.data_response(response)
@@ -102,4 +100,4 @@ def staticinline(path, encode=None, cache=False, cache_timeout=None):
         if settings.DEBUG:
             raise e
 
-    return ''
+    return ""

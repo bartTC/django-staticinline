@@ -1,1 +1,1 @@
-default_app_config = 'staticinline.apps.StaticInlineAppConfig'
+default_app_config = "staticinline.apps.StaticInlineAppConfig"
