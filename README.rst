@@ -1,14 +1,8 @@
 .. image:: https://badge.fury.io/py/django-staticinline.svg
     :target: https://badge.fury.io/py/django-staticinline
 
-.. image:: https://travis-ci.org/bartTC/django-staticinline.svg?branch=master
-    :target: https://travis-ci.org/bartTC/django-staticinline
-
-.. image:: https://api.codacy.com/project/badge/Coverage/8e64345e99ea49888dc1bd9303c89a35
-    :target: https://www.codacy.com/app/bartTC/django-staticinline
-
-.. image:: https://api.codacy.com/project/badge/Grade/8e64345e99ea49888dc1bd9303c89a35
-    :target: https://www.codacy.com/app/bartTC/django-staticinline
+.. image:: https://github.com/github/docs/actions/workflows/main.yml/badge.svg?branch=master
+    :target: https://github.com/bartTC/django-staticinline/actions
 
 -----
 
