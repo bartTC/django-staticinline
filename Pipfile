@@ -21,7 +21,7 @@ coverage = "*"
 test = "django-admin test staticinline"
 docs = "sphinx-build docs docs/_build/html"
 watch-docs = "sphinx-autobuild docs docs/_build/html"
-cleanup = "sh -c \"black --skip-string-normalization --line-length=80 --exclude='/(migrations)/' staticinline && isort -rc staticinline\""
+cleanup = "sh -c \"black --exclude='/(migrations)/' staticinline && isort -rc staticinline\""
 
 [pipenv]
 allow_prereleases = true
