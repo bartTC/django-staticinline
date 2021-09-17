@@ -6,9 +6,10 @@ name = "pypi"
 [packages]
 django-staticinline = {editable = true,path = "."}
 
+
 [dev-packages]
 sphinx = "*"
-sphinx-rtd-theme = "*"
+sphinx-book-theme = "*"
 pytest-cov = "*"
 pytest-django = "*"
 sphinx-autobuild = "*"
