@@ -1,7 +1,7 @@
 .. image:: https://badge.fury.io/py/django-staticinline.svg
     :target: https://badge.fury.io/py/django-staticinline
 
-.. image:: https://github.com/github/docs/actions/workflows/main.yml/badge.svg?branch=master
+.. image:: https://github.com/bartTC/django-staticinline/actions/workflows/test.yml/badge.svg?branch=master
     :target: https://github.com/bartTC/django-staticinline/actions
 
 -----
