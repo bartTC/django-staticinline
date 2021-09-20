@@ -6,7 +6,9 @@
 
 -----
 
-📖 **Full documentation on https://django-staticinline.readthedocs.io/.**
+|
+| 📖 **Full documentation: https://django-staticinline.readthedocs.io**
+| 🐱 **Github Repository: https://github.com/bartTC/django-staticinline**
 
 ===================
 django-staticinline
