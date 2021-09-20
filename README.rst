@@ -9,7 +9,7 @@
 |
 | 📖 Full documentation: `https://django-staticinline.readthedocs.io <https://django-staticinline.readthedocs.io>`_
 | 🐱 Github Repository: `https://github.com/bartTC/django-staticinline <https://github.com/bartTC/django-staticinline>`_
-
+|    
 ===================
 django-staticinline
 ===================
@@ -18,6 +18,17 @@ Works similar to Django's ``static`` templatetag, but this one includes
 the file directly in the template, rather than a link to it.
 
 You can additionally post-process the file content using custom 'encoder'.
+
+Compatibility Matrix:
+=====================
+
+========= === === === ===
+Py/Dj     3.6 3.7 3.8 3.9
+========= === === === ===
+2.2 (LTS)  ✓   ✓   ✓   ✓
+3.1        ✓   ✓   ✓   ✓
+3.2        ✓   ✓   ✓   ✓
+========= === === === ===
 
 Quickstart
 ==========
