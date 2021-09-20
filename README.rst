@@ -7,8 +7,8 @@
 -----
 
 |
-| 📖 **Full documentation: https://django-staticinline.readthedocs.io**
-| 🐱 **Github Repository: https://github.com/bartTC/django-staticinline**
+| 📖 Full documentation: `https://django-staticinline.readthedocs.io <https://django-staticinline.readthedocs.io>`_
+| 🐱 Github Repository: `https://github.com/bartTC/django-staticinline <https://github.com/bartTC/django-staticinline>`_
 
 ===================
 django-staticinline
