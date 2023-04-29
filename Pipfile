@@ -18,10 +18,10 @@ wheel = "*"
 setuptools = "*"
 
 [scripts]
-test = "django-admin test staticinline"
+test = "pytest"
 docs = "sphinx-build docs docs/_build/html"
 watch-docs = "sphinx-autobuild docs docs/_build/html"
-cleanup = "sh -c \"ruff --fix memcache_status && black memcache_status\""
+cleanup = "sh -c \"ruff --fix staticinline && black staticinline\""
 
 [pipenv]
 allow_prereleases = true

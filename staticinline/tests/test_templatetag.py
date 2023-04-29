@@ -15,9 +15,7 @@ def render(source, **context):
 
 
 class StaticInlineTests(TestCase):
-    template = (
-        "{% load staticinline %}" '<script>{% staticinline "somefile" %}</script>'
-    )
+    template = '{% load staticinline %}<script>{% staticinline "somefile" %}</script>'
 
     def test_found(self):
         """
@@ -117,7 +115,7 @@ class EncoderTests(TestCase):
             reader.return_value = b"it is bytestring data"
             rendered = render(
                 "{% load staticinline %}"
-                'My Key: {% staticinline "somefile" encode="broken" %}'
+                'My Key: {% staticinline "somefile" encode="broken" %}',
             )
             self.assertEqual(rendered, "My Key: ")
 
@@ -144,7 +142,7 @@ class EncoderTests(TestCase):
             reader.return_value = b"shouting"
             rendered = render(
                 "{% load staticinline %}"
-                '{% staticinline "somefile" encode="uppercase" %}'
+                '{% staticinline "somefile" encode="uppercase" %}',
             )
             self.assertEqual(rendered, "SHOUTING")
 
@@ -156,7 +154,7 @@ class EncoderTests(TestCase):
             reader.return_value = b"it is bytestring data"
             rendered = render(
                 "{% load staticinline %}"
-                'My Key: {% staticinline "somefile" encode="base64" %}'
+                'My Key: {% staticinline "somefile" encode="base64" %}',
             )
             self.assertEqual(rendered, "My Key: aXQgaXMgYnl0ZXN0cmluZyBkYXRh")
 
@@ -169,10 +167,11 @@ class EncoderTests(TestCase):
             reader.return_value = b"png content"
             rendered = render(
                 "{% load staticinline %}"
-                '<img src="{% staticinline "a.png" encode="data" %}">'
+                '<img src="{% staticinline "a.png" encode="data" %}">',
             )
             self.assertEqual(
-                rendered, '<img src="data:image/png;base64,cG5nIGNvbnRlbnQ=">'
+                rendered,
+                '<img src="data:image/png;base64,cG5nIGNvbnRlbnQ=">',
             )
 
     @override_settings(DEBUG=True)
@@ -184,7 +183,7 @@ class EncoderTests(TestCase):
             reader.return_value = b"png content"
             rendered = render(
                 "{% load staticinline %}"
-                '<img src="{% staticinline "somefile" encode="data" %}">'
+                '<img src="{% staticinline "somefile" encode="data" %}">',
             )
             self.assertEqual(rendered, '<img src="data:;base64,cG5nIGNvbnRlbnQ=">')
 
@@ -196,7 +195,7 @@ class EncoderTests(TestCase):
             reader.return_value = b'alert("hi")'
             rendered = render(
                 "{% load staticinline %}"
-                'integrity="{% staticinline "somefile" encode="sri" %}"'
+                'integrity="{% staticinline "somefile" encode="sri" %}"',
             )
             self.assertEqual(
                 rendered,

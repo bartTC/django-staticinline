@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-
 from logging import getLogger
 
 from django.apps import apps
@@ -32,14 +30,14 @@ def staticinline(path, encode=None, cache=False, cache_timeout=None):
         <style type="text/css">body{ color: red; }</style>
         <script>alert("Hello World");</script>
 
-    Raises a ValueError if the the file does not exist, and
-    DEBUG is enabled.
+    Raises a ValueError if the file does not exist, and DEBUG is enabled.
 
     :param str path: Filename of the file to include.
+    :param str encode: Custom encoder function to run on data.
     :param bool cache: Whether to cache the response.
     :param int cache_timeout: The cache timeout for this particular file.
         If not set, AppConfig.cache_timeout is used.
-    :return: Returns the the file content *or* ``''`` (empty string) if the
+    :return: Returns the file content *or* ``''`` (empty string) if the
         file was not found, and ``DEBUG`` is ``False``.
     :rtype: str
     :raises ValueError: if the file is not found and ``DEBUG`` is ``True``
@@ -75,9 +73,10 @@ def staticinline(path, encode=None, cache=False, cache_timeout=None):
 
     if encode not in encoder_registry:
         raise ImproperlyConfigured(
-            '"{0}" is not a registered encoder. Valid values are: {1}'.format(
-                encode, ", ".join(encoder_registry.keys())
-            )
+            '"{}" is not a registered encoder. Valid values are: {}'.format(
+                encode,
+                ", ".join(encoder_registry.keys()),
+            ),
         )
     try:
         response = encoder_registry[encode](data, path)
@@ -91,12 +90,11 @@ def staticinline(path, encode=None, cache=False, cache_timeout=None):
     # list itself. In case of an error raise that exception, unless
     # DEBUG mode is off. Then, same as above, return an empty string.
     except Exception as e:
-        logger.error(
+        logger.exception(
             'Error encoding to data format %s in static file "%s".',
             encode,
             path,
         )
-        logger.exception(e)
         if settings.DEBUG:
             raise e
 

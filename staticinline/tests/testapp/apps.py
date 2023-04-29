@@ -12,7 +12,7 @@ class CustomizedStaticInlineAppConfig(StaticInlineAppConfig):
     """
 
     def get_encoder(self):
-        encoder = super(CustomizedStaticInlineAppConfig, self).get_encoder()
+        encoder = super().get_encoder()
         encoder.update({"uppercase": self.uppercase, "broken": self.broken})
         return encoder
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Configuration file for the Sphinx documentation builder.
 #
@@ -149,7 +148,7 @@ man_pages = [
         "django-staticinline Documentation",
         [author],
         1,
-    )
+    ),
 ]
 
 
@@ -177,4 +176,3 @@ texinfo_documents = [
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {"https://docs.python.org/": None}
-

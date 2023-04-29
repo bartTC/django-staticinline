@@ -16,8 +16,8 @@ class StaticInlineAppConfig(AppConfig):
     cache_timeout = 60 * 60
 
     def build_cache_key(self, path, encode=None):
-        s = "{0}{1}".format(path, encode or "")
-        return "staticinline-{0}".format(hashlib.sha1(s.encode()).hexdigest())
+        s = "{}{}".format(path, encode or "")
+        return f"staticinline-{hashlib.sha1(s.encode()).hexdigest()}"  # noqa: S324 Probable use of insecure hash functions
 
     def data_response(self, data):
         """
@@ -66,10 +66,7 @@ class StaticInlineAppConfig(AppConfig):
         :rtype: str
         """
         mimetype = mimetypes.guess_type(path)[0]
-        if mimetype is None:
-            prefix = "data:;base64,"
-        else:
-            prefix = "data:{0};base64,".format(mimetype)
+        prefix = "data:;base64," if mimetype is None else f"data:{mimetype};base64,"
         return prefix + self.encode_base64(data, data)
 
     def encode_sri(self, data, path):
@@ -95,4 +92,4 @@ class StaticInlineAppConfig(AppConfig):
         """
         h = hashlib.sha256(data).digest()
         h_base64 = base64.b64encode(h).decode()
-        return "sha256-{}".format(h_base64)
+        return f"sha256-{h_base64}"

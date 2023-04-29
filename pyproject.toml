@@ -39,7 +39,6 @@ ignore = [
 ]
 
 [tool.pytest.ini_options]
-python_paths = ["staticinline"]
 python_files = [
   "tests.py",
   "test_*.py",
