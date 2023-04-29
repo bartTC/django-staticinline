@@ -9,7 +9,8 @@
 |
 | 📖 Full documentation: `https://django-staticinline.readthedocs.io <https://django-staticinline.readthedocs.io>`_
 | 🐱 Github Repository: `https://github.com/bartTC/django-staticinline <https://github.com/bartTC/django-staticinline>`_
-|    
+|
+
 ===================
 django-staticinline
 ===================
@@ -22,13 +23,15 @@ You can additionally post-process the file content using custom 'encoder'.
 Compatibility Matrix:
 =====================
 
-========= === === === ===
-Py/Dj     3.6 3.7 3.8 3.9
-========= === === === ===
+========= === === ==== ====
+Py/Dj     3.8 3.9 3.10 3.11
+========= === === ==== ====
 2.2 (LTS)  ✓   ✓   ✓   ✓
-3.1        ✓   ✓   ✓   ✓
-3.2        ✓   ✓   ✓   ✓
-========= === === === ===
+3.2 (LTS)  ✓   ✓   ✓   ✓
+4.0        ✓   ✓   ✓   ✓
+4.1        ✓   ✓   ✓   ✓
+4.2 (LTS)  ✓   ✓   ✓   ✓
+========= === === ==== ====
 
 Quickstart
 ==========

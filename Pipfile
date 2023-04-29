@@ -10,19 +10,18 @@ django-staticinline = {editable = true,path = "."}
 [dev-packages]
 sphinx = "*"
 sphinx-book-theme = "*"
-pytest-cov = "*"
 pytest-django = "*"
 sphinx-autobuild = "*"
 ipdb = "*"
-isort = "*"
 black = "*"
-coverage = "*"
+wheel = "*"
+setuptools = "*"
 
 [scripts]
 test = "django-admin test staticinline"
 docs = "sphinx-build docs docs/_build/html"
 watch-docs = "sphinx-autobuild docs docs/_build/html"
-cleanup = "sh -c \"black --exclude='/(migrations)/' staticinline && isort -rc staticinline\""
+cleanup = "sh -c \"ruff --fix memcache_status && black memcache_status\""
 
 [pipenv]
 allow_prereleases = true

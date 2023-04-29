@@ -2,6 +2,12 @@
 Changelog
 =========
 
+v1.4
+====
+
+- Django 3.2 to 4.2 compatibility and tests.
+- Python 3.8 to 3.11 compatibility and tests.
+
 v1.3 (2018-08-15)
 =================
 

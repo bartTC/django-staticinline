@@ -1,3 +1,6 @@
+*.egg-info
 .eggs
-docs/_build
-coverage_report
+/build
+/coverage_report
+/dist
+/docs/_build
