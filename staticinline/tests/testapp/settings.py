@@ -1,11 +1,6 @@
-import logging.config
-import os
-
 DEBUG = True
 
-SECRET_KEY = (
-    "super-secret-staticinline-testing-key"  # noqa: S105 Possible hardcoded password:
-)
+SECRET_KEY = "super-secret-staticinline-testing-key"  # noqa: S105 Possible hardcoded password:
 
 DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:"}}
 
@@ -45,33 +40,7 @@ MIDDLEWARE = MIDDLEWARE_CLASSES
 
 STATIC_ROOT = "/tmp/test-staticinline-static-root/"  # noqa: S108 Probable insecure usage of temporary file
 STATIC_URL = "/static/"
-# ROOT_URLCONF = 'staticinline.tests.testapp.urls'
-
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
-
-logging.config.dictConfig(
-    {
-        "version": 1,
-        "disable_existing_loggers": False,
-        "formatters": {
-            "console": {
-                "format": "%(asctime)s %(name)-12s %(levelname)-8s %(message)s",
-            },
-        },
-        "handlers": {
-            "console": {
-                "class": "logging.StreamHandler",
-                "formatter": "console",
-            },
-        },
-        "loggers": {
-            "": {
-                "level": os.environ.get("LOG_LEVEL", "ERROR").upper(),
-                "handlers": ["console"],
-            },
-        },
-    },
-)

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from logging import getLogger
 
 from django.apps import apps
@@ -13,7 +15,12 @@ config = apps.get_app_config("staticinline")
 
 
 @register.simple_tag()
-def staticinline(path, encode=None, cache=False, cache_timeout=None):
+def staticinline(  # noqa: C901 Too Complex
+    path: str,
+    encode: str | None = None,
+    cache: bool = False,
+    cache_timeout: bool | None = None,
+) -> str:
     """
     Similar to Django's native `static` templatetag, but this includes
     the file directly in the template, rather than a link to it.
@@ -72,11 +79,12 @@ def staticinline(path, encode=None, cache=False, cache_timeout=None):
     encoder_registry = config.get_encoder()
 
     if encode not in encoder_registry:
+        msg = '"{}" is not a registered encoder. Valid values are: {}'.format(
+            encode,
+            ", ".join(encoder_registry.keys()),
+        )
         raise ImproperlyConfigured(
-            '"{}" is not a registered encoder. Valid values are: {}'.format(
-                encode,
-                ", ".join(encoder_registry.keys()),
-            ),
+            msg,
         )
     try:
         response = encoder_registry[encode](data, path)
@@ -89,13 +97,13 @@ def staticinline(path, encode=None, cache=False, cache_timeout=None):
     # Anything could go wrong since we don't control the encoding
     # list itself. In case of an error raise that exception, unless
     # DEBUG mode is off. Then, same as above, return an empty string.
-    except Exception as e:
+    except Exception:
         logger.exception(
             'Error encoding to data format %s in static file "%s".',
             encode,
             path,
         )
         if settings.DEBUG:
-            raise e
+            raise
 
     return ""

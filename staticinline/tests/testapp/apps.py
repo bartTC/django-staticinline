@@ -16,13 +16,13 @@ class CustomizedStaticInlineAppConfig(StaticInlineAppConfig):
         encoder.update({"uppercase": self.uppercase, "broken": self.broken})
         return encoder
 
-    def uppercase(self, data, path):
+    def uppercase(self, data: bytes, path: str):
         """
         Sample encoder that turns the incoming text data uppercase.
         """
         return data.decode(self.encoder_response_format).upper()
 
-    def broken(self, data, path):
+    def broken(self, data: bytes, path: str) -> float:
         """
         This intentionally raises an Exception to test error reporting.
         """

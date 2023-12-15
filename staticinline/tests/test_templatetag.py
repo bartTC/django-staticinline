@@ -1,3 +1,4 @@
+from typing import Any
 from unittest import mock
 
 from django.core.cache import cache
@@ -10,23 +11,23 @@ from django.test.testcases import TestCase
 from staticinline.templatetags import staticinline
 
 
-def render(source, **context):
+def render(source: str, **context: Any) -> str:
     return Template(source).render(Context(context))
 
 
 class StaticInlineTests(TestCase):
     template = '{% load staticinline %}<script>{% staticinline "somefile" %}</script>'
 
-    def test_found(self):
+    def test_found(self) -> None:
         """
         Static file is are correctly included inline the template.
         """
         with mock.patch.object(staticinline, "read_static_file") as reader:
             reader.return_value = 'alert("hi")'
             rendered = render(self.template)
-            self.assertEqual(rendered, '<script>alert("hi")</script>')
+            assert rendered == '<script>alert("hi")</script>'
 
-    def test_file_missing(self):
+    def test_file_missing(self) -> None:
         """
         An empty string is returned if the inlined file is missing and
         DEBUG is off.
@@ -34,10 +35,10 @@ class StaticInlineTests(TestCase):
         with mock.patch.object(staticinline, "read_static_file") as reader:
             reader.side_effect = ValueError("Not found")
             rendered = render(self.template)
-            self.assertEqual(rendered, "<script></script>")
+            assert rendered == "<script></script>"
 
     @override_settings(DEBUG=True)
-    def test_file_missing_debug(self):
+    def test_file_missing_debug(self) -> None:
         """
         An error raised from read_static_file if the inlined file is
         missing and DEBUG is on.
@@ -54,13 +55,13 @@ class CachedStaticInlineTests(TestCase):
     )
     template_cached_encoder = (
         "{% load staticinline %}"
-        '{% staticinline "some-other-file" encode="base64" cache=True cache_timeout=60 %}'
+        '{% staticinline "some-other-file" encode="base64" cache=True cache_timeout=60 %}'  # noqa: E501
     )
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         cache.clear()
 
-    def test_cache(self):
+    def test_cache(self) -> None:
         """
         Static file is are correctly included inline the template.
         """
@@ -68,15 +69,15 @@ class CachedStaticInlineTests(TestCase):
         with mock.patch.object(staticinline, "read_static_file") as reader:
             reader.return_value = 'alert("hi")'
             rendered = render(self.template_cached)
-            self.assertEqual(rendered, '<script>alert("hi")</script>')
+            assert rendered == '<script>alert("hi")</script>'
 
         # Call again to test cache retrieval
         with mock.patch.object(staticinline, "read_static_file") as reader:
             reader.return_value = 'alert("hi")'
             rendered = render(self.template_cached)
-            self.assertEqual(rendered, '<script>alert("hi")</script>')
+            assert rendered == '<script>alert("hi")</script>'
 
-    def test_cache_encoder(self):
+    def test_cache_encoder(self) -> None:
         """
         Static file is are correctly included inline the template.
         """
@@ -84,17 +85,17 @@ class CachedStaticInlineTests(TestCase):
         with mock.patch.object(staticinline, "read_static_file") as reader:
             reader.return_value = b"it is bytestring data"
             rendered = render(self.template_cached_encoder)
-            self.assertEqual(rendered, "aXQgaXMgYnl0ZXN0cmluZyBkYXRh")
+            assert rendered == "aXQgaXMgYnl0ZXN0cmluZyBkYXRh"
 
         # Call again to test cache retrieval
         with mock.patch.object(staticinline, "read_static_file") as reader:
             reader.return_value = b"it is bytestring data"
             rendered = render(self.template_cached_encoder)
-            self.assertEqual(rendered, "aXQgaXMgYnl0ZXN0cmluZyBkYXRh")
+            assert rendered == "aXQgaXMgYnl0ZXN0cmluZyBkYXRh"
 
 
 class EncoderTests(TestCase):
-    def test_unregistered(self):
+    def test_unregistered(self) -> None:
         """
         Using an unregistered encoder will raise ImproperlyConfigured.
         """
@@ -106,7 +107,7 @@ class EncoderTests(TestCase):
             reader.return_value = 'alert("hi")'
             self.assertRaises(ImproperlyConfigured, render, template)
 
-    def test_error(self):
+    def test_error(self) -> None:
         """
         If the encoder raises any exception, return an empty string when
         DEBUG is off.
@@ -117,10 +118,10 @@ class EncoderTests(TestCase):
                 "{% load staticinline %}"
                 'My Key: {% staticinline "somefile" encode="broken" %}',
             )
-            self.assertEqual(rendered, "My Key: ")
+            assert rendered == "My Key: "
 
     @override_settings(DEBUG=True)
-    def test_error_debug(self):
+    def test_error_debug(self) -> None:
         """
         If the encoder raises any exception, the exception is raised
         when DEBUG is on.
@@ -133,7 +134,7 @@ class EncoderTests(TestCase):
             )
             self.assertRaises(ZeroDivisionError, render, template)
 
-    def test_custom(self):
+    def test_custom(self) -> None:
         """
         Custom encoders can be used in a separate appconfig.
         In testapp/apps.py, the 'uppercase' encoder is added.
@@ -144,9 +145,9 @@ class EncoderTests(TestCase):
                 "{% load staticinline %}"
                 '{% staticinline "somefile" encode="uppercase" %}',
             )
-            self.assertEqual(rendered, "SHOUTING")
+            assert rendered == "SHOUTING"
 
-    def test_base64(self):
+    def test_base64(self) -> None:
         """
         The 'base64' encoder is shipped with this application.
         """
@@ -156,10 +157,10 @@ class EncoderTests(TestCase):
                 "{% load staticinline %}"
                 'My Key: {% staticinline "somefile" encode="base64" %}',
             )
-            self.assertEqual(rendered, "My Key: aXQgaXMgYnl0ZXN0cmluZyBkYXRh")
+            assert rendered == "My Key: aXQgaXMgYnl0ZXN0cmluZyBkYXRh"
 
     @override_settings(DEBUG=True)
-    def test_data(self):
+    def test_data(self) -> None:
         """
         The 'data' URI encoder is shipped with this application.
         """
@@ -169,13 +170,10 @@ class EncoderTests(TestCase):
                 "{% load staticinline %}"
                 '<img src="{% staticinline "a.png" encode="data" %}">',
             )
-            self.assertEqual(
-                rendered,
-                '<img src="data:image/png;base64,cG5nIGNvbnRlbnQ=">',
-            )
+            assert rendered == '<img src="data:image/png;base64,cG5nIGNvbnRlbnQ=">'
 
     @override_settings(DEBUG=True)
-    def test_data_unknown_mimetype(self):
+    def test_data_unknown_mimetype(self) -> None:
         """
         The data URI still works if no mimetype can be guessed.
         """
@@ -185,9 +183,9 @@ class EncoderTests(TestCase):
                 "{% load staticinline %}"
                 '<img src="{% staticinline "somefile" encode="data" %}">',
             )
-            self.assertEqual(rendered, '<img src="data:;base64,cG5nIGNvbnRlbnQ=">')
+            assert rendered == '<img src="data:;base64,cG5nIGNvbnRlbnQ=">'
 
-    def test_sri(self):
+    def test_sri(self) -> None:
         """
         The 'base64' encoder is shipped with this application.
         """
@@ -197,7 +195,7 @@ class EncoderTests(TestCase):
                 "{% load staticinline %}"
                 'integrity="{% staticinline "somefile" encode="sri" %}"',
             )
-            self.assertEqual(
-                rendered,
-                'integrity="sha256-fdu2bQSeIdU5fvNNkRCjiwUEOOb+NLZDyGNVShZ1vCM="',
+            assert (
+                rendered
+                == 'integrity="sha256-fdu2bQSeIdU5fvNNkRCjiwUEOOb+NLZDyGNVShZ1vCM="'
             )
