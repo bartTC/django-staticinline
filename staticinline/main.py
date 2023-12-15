@@ -8,10 +8,6 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 logger = getLogger(__file__)
 
 
-class FileDoesNotExistError(ValueError):
-    pass
-
-
 def read_static_file(path: str, mode: str = "r") -> str:
     """
     Return the contents of a static file.
@@ -30,4 +26,4 @@ def read_static_file(path: str, mode: str = "r") -> str:
 
     message = 'Unable to include inline static file "%s", file not found.'
     logger.warning(message, path)
-    raise FileDoesNotExistError(message % path)
+    raise FileNotFoundError(message % path)

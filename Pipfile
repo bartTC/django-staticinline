@@ -7,21 +7,20 @@ name = "pypi"
 django-staticinline = {editable = true,path = "."}
 
 [dev-packages]
-sphinx = "*"
-sphinx-book-theme = "*"
-pytest-django = "*"
-sphinx-autobuild = "*"
 ipdb = "*"
-black = "*"
-wheel = "*"
-setuptools = "*"
+pytest-django = "*"
 ruff = "*"
+setuptools = "*"
+sphinx = "*"
+sphinx-autobuild = "*"
+sphinx-book-theme = "*"
+wheel = "*"
 
 [scripts]
 tests = "pytest"
 docs = "sphinx-build docs docs/_build/html"
 watch-docs = "sphinx-autobuild docs docs/_build/html"
-cleanup = "sh -c \"ruff --fix staticinline && black staticinline\""
+cleanup = "sh -c \"ruff --fix staticinline && ruff format staticinline\""
 
 [pipenv]
 allow_prereleases = true

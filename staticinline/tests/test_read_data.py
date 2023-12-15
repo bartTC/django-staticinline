@@ -61,4 +61,4 @@ class ReadDataTests(TestCase):
         path = Path("testapp/unexpected.bat")
         with (settings.STATIC_ROOT / path).open("w") as f:
             f.write("@echo off")
-        pytest.raises(FileDoesNotExistError, read_static_file, path)
+        pytest.raises(FileNotFoundError, read_static_file, path)

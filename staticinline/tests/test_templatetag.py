@@ -1,6 +1,7 @@
 from typing import Any
 from unittest import mock
 
+import pytest
 from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
 from django.template import Template
@@ -33,7 +34,7 @@ class StaticInlineTests(TestCase):
         DEBUG is off.
         """
         with mock.patch.object(staticinline, "read_static_file") as reader:
-            reader.side_effect = ValueError("Not found")
+            reader.side_effect = FileNotFoundError("Not found")
             rendered = render(self.template)
             assert rendered == "<script></script>"
 
@@ -44,8 +45,8 @@ class StaticInlineTests(TestCase):
         missing and DEBUG is on.
         """
         with mock.patch.object(staticinline, "read_static_file") as reader:
-            reader.side_effect = ValueError("Not found")
-            self.assertRaises(ValueError, render, self.template)
+            reader.side_effect = FileNotFoundError("Not found")
+            pytest.raises(FileNotFoundError, render, self.template)
 
 
 class CachedStaticInlineTests(TestCase):
@@ -105,7 +106,7 @@ class EncoderTests(TestCase):
         )
         with mock.patch.object(staticinline, "read_static_file") as reader:
             reader.return_value = 'alert("hi")'
-            self.assertRaises(ImproperlyConfigured, render, template)
+            pytest.raises(ImproperlyConfigured, render, template)
 
     def test_error(self) -> None:
         """
@@ -132,7 +133,7 @@ class EncoderTests(TestCase):
                 "{% load staticinline %}"
                 'My Key: {% staticinline "somefile" encode="broken" %}'
             )
-            self.assertRaises(ZeroDivisionError, render, template)
+            pytest.raises(ZeroDivisionError, render, template)
 
     def test_custom(self) -> None:
         """
