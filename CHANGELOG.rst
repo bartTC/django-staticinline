@@ -2,6 +2,13 @@
 Changelog
 =========
 
+v1.5
+====
+
+- Django 5.0 compatibility and tests.
+- Python 3.12 compatibility and tests.
+- Type annotations.
+
 v1.4
 ====
 
