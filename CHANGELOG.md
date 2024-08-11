@@ -2,7 +2,7 @@
 
 ## v1.5 (2024-08-11)
 
-- Django 5.0, 5.2 compatibility and tests.
+- Django 5.0, 5.1 compatibility and tests.
 - Python 3.12 compatibility and tests.
 - Type annotations.
 - Switch from pipenv to Poetry.
