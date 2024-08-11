@@ -3,7 +3,7 @@
 
 -----
 
-📖 Full documentation: https://django-staticinline.readthedocs.io<br/>
+📖 Full documentation: https://barttc.github.io/django-staticinline/<br/>
 🐱 GitHub Repository: https://github.com/bartTC/django-staticinline
 
 
