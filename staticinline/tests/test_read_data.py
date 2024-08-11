@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import shutil
 from pathlib import Path
 
@@ -61,4 +63,4 @@ class ReadDataTests(TestCase):
         path = Path("testapp/unexpected.bat")
         with (settings.STATIC_ROOT / path).open("w") as f:
             f.write("@echo off")
-        pytest.raises(FileNotFoundError, read_static_file, path)
+        pytest.raises(FileDoesNotExistError, read_static_file, path)

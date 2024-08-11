@@ -1,40 +1,32 @@
-.. image:: https://badge.fury.io/py/django-staticinline.svg
-    :target: https://badge.fury.io/py/django-staticinline
-
-.. image:: https://github.com/bartTC/django-staticinline/actions/workflows/test.yml/badge.svg?branch=master
-    :target: https://github.com/bartTC/django-staticinline/actions
+[![](https://badge.fury.io/py/django-staticinline.svg)](https://badge.fury.io/py/django-staticinline)
+[![](https://github.com/bartTC/django-staticinline/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/bartTC/django-staticinline/actions)
 
 -----
 
-|
-| 📖 Full documentation: `https://django-staticinline.readthedocs.io <https://django-staticinline.readthedocs.io>`_
-| 🐱 Github Repository: `https://github.com/bartTC/django-staticinline <https://github.com/bartTC/django-staticinline>`_
-|
+📖 Full documentation: https://django-staticinline.readthedocs.io<br/>
+🐱 GitHub Repository: https://github.com/bartTC/django-staticinline
 
-===================
-django-staticinline
-===================
+
+# django-staticinline
 
 Works similar to Django's ``static`` templatetag, but this one includes
 the file directly in the template, rather than a link to it.
 
 You can additionally post-process the file content using custom 'encoder'.
 
-Compatibility Matrix:
-=====================
+## Compatibility Matrix:
 
-========= === === ==== ==== ====
-Py/Dj     3.8 3.9 3.10 3.11 3.12
-========= === === ==== ==== ====
-2.2 (LTS)  ✓   ✓   ✓   ✓    ✓
-3.2 (LTS)  ✓   ✓   ✓   ✓    ✓
-4.0        ✓   ✓   ✓   ✓    ✓
-4.1        ✓   ✓   ✓   ✓    ✓
-4.2 (LTS)  —   —   ✓   ✓    ✓
-========= === === ==== ==== ====
+| Py/Dj     | 3.9 | 3.10 | 3.11 | 3.12 |
+|-----------|-----|------|------|------|
+| 3.2 (LTS) | ✓   | ✓    | ✓    | ✓    |
+| 4.0       | ✓   | ✓    | ✓    | ✓    |
+| 4.1       | ✓   | ✓    | ✓    | ✓    |
+| 4.2 (LTS) | —   | ✓    | ✓    | ✓    |
+| 5.0       | —   | ✓    | ✓    | ✓    |
+| 5.1       | —   | ✓    | ✓    | ✓    |
 
-Quickstart
-==========
+## Quickstart
+
 
 1. Put the StaticInlineAppConfig along your apps.
 
@@ -56,7 +48,6 @@ Quickstart
 
        <style type="text/css">{% staticinline "myfile.css" %}</style>
        My base64 encoded Key: {% staticinline "mykey.pem" encode="base64" cache=True %}
-
 
 3. Enjoy the result:
 

@@ -10,7 +10,7 @@ from django.template.defaulttags import register
 
 from staticinline.main import read_static_file
 
-logger = getLogger(__file__)
+logger = getLogger(__name__)
 config = apps.get_app_config("staticinline")
 
 

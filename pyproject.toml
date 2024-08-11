@@ -1,14 +1,38 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
 [tool.poetry]
 name = "django-staticinline"
-version = "1.4"
+version = "1.5"
+packages = [{include = "staticinline"}]
 description = "Django template tag to load static files inline with your template."
+keywords = ["django", "staticfiles", "inline", "performance"]
 authors = ["Martin Mahner <martin@mahner.org>"]
 license = "MIT"
-readme = "README.md"
+homepage = "https://github.com/bartTC/django-staticinline"
+readme = ["README.md", "CHANGELOG.md"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Framework :: Django",
+]
+
+[tool.poetry.urls]
+Source = "https://github.com/bartTC/django-staticinline"
+Bugtracker = "https://github.com/bartTC/django-staticinline/issues"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-django = ">=2.2"
+django = ">=3.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.2"
@@ -17,15 +41,11 @@ sphinx = "^7.3.7"
 sphinx-autobuild = "^2024.4.16"
 sphinx-book-theme = "^1.1.3"
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
 [tool.ruff]
 target-version = "py39"
 exclude = ["migrations"]
-select = ["ALL"]
-ignore = [
+lint.select = ["ALL"]
+lint.ignore = [
   "ANN101",   # Missing Type Annotation for "self"
   "ANN401",   # Dynamically typed expressions (typing.Any) are disallowed in `**kwargs`"
   "ARG001",   # Unused function argument (request, ...)
@@ -38,7 +58,7 @@ ignore = [
   "ISC001",   # (ruff format) Checks for implicitly concatenated strings on a single line
 ]
 
-[tool.ruff.extend-per-file-ignores]
+[tool.ruff.lint.extend-per-file-ignores]
 # Also ignore `E402` in all `__init__.py` files.
 "test_*.py" = [
   "S101",     # S101 Use of `assert` detected

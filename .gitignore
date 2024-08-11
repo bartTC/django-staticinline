@@ -4,3 +4,4 @@
 /coverage_report
 /dist
 /docs/_build
+poetry.lock
