@@ -2,6 +2,7 @@
 Custom app config for staticinline to demonstrate and test
 the 'custom encoder' functionality.
 """
+
 from __future__ import annotations
 
 from staticinline.apps import StaticInlineAppConfig
