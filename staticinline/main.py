@@ -25,6 +25,7 @@ def read_static_file(path: str, mode: str = "r") -> str:
         if filename:
             with Path(filename).open(mode=mode) as f:
                 return f.read()
+
     elif staticfiles_storage.exists(path):
         # Look up file in collectstatic target directory (regular
         # deployment).

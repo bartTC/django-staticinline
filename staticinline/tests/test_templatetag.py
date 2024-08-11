@@ -30,6 +30,7 @@ class StaticInlineTests(TestCase):
             rendered = render(self.template)
             assert rendered == '<script>alert("hi")</script>'
 
+    @override_settings(DEBUG=False)
     def test_file_missing(self) -> None:
         """
         An empty string is returned if the inlined file is missing and

@@ -64,7 +64,7 @@ def staticinline(  # noqa: C901 Too Complex
 
     try:
         data = read_static_file(path, mode="rb" if encode else "r")
-    except ValueError:
+    except FileNotFoundError:
         if settings.DEBUG:
             raise
         return ""
@@ -83,9 +83,7 @@ def staticinline(  # noqa: C901 Too Complex
             encode,
             ", ".join(encoder_registry.keys()),
         )
-        raise ImproperlyConfigured(
-            msg,
-        )
+        raise ImproperlyConfigured(msg)
     try:
         response = encoder_registry[encode](data, path)
         if cache:
@@ -99,9 +97,7 @@ def staticinline(  # noqa: C901 Too Complex
     # DEBUG mode is off. Then, same as above, return an empty string.
     except Exception:
         logger.exception(
-            'Error encoding to data format %s in static file "%s".',
-            encode,
-            path,
+            'Error encoding to data format %s in static file "%s".', encode, path
         )
         if settings.DEBUG:
             raise
