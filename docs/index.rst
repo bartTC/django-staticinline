@@ -4,6 +4,8 @@
 Welcome to the django-staticinline Documentation
 ================================================
 
+Changelog: https://github.com/bartTC/django-staticinline/blob/main/CHANGELOG.md
+
 ===================
 django-staticinline
 ===================
