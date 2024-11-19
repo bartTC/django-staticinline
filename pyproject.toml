@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "django-staticinline"
-version = "1.5"
+version = "1.6"
 packages = [{include = "staticinline"}]
 description = "Django template tag to load static files inline with your template."
 keywords = ["django", "staticfiles", "inline", "performance"]
