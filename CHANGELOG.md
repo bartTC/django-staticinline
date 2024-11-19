@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.6 (2024-11-19)
+
+- Python 3.13 compatibility and tests.
+- Drop support for Django <= 4.1.
+- Drop support for Python 3.8.
+
 ## v1.5 (2024-08-11)
 
 - Django 5.0, 5.1 compatibility and tests.
