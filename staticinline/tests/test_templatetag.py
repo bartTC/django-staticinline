@@ -14,7 +14,7 @@ from django.test.testcases import TestCase
 from staticinline.templatetags import staticinline
 
 
-def render(source: str, **context: Any) -> str:
+def render(source: str, **context: Any) -> str:  # noqa: ANN401
     return Template(source).render(Context(context))
 
 
@@ -104,8 +104,7 @@ class EncoderTests(TestCase):
         Using an unregistered encoder will raise ImproperlyConfigured.
         """
         template = (
-            "{% load staticinline %}"
-            '{% staticinline "somefile" encode="doesnotexist" %}'
+            '{% load staticinline %}{% staticinline "somefile" encode="doesnotexist" %}'
         )
         with mock.patch.object(staticinline, "read_static_file") as reader:
             reader.return_value = 'alert("hi")'
