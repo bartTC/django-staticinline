@@ -1,5 +1,9 @@
 # Changelog
 
+## WIP
+
+- Django 5.2 compatibility and tests.
+
 ## v1.6 (2024-11-19)
 
 - Python 3.13 compatibility and tests.
